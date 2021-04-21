@@ -51,3 +51,12 @@ INSERT INTO `TeamScore` VALUES (null, 2, 1, 1583873462376);
 INSERT INTO `TeamScore` VALUES (null, 2, 6, 1583873462376);
 INSERT INTO `TeamScore` VALUES (null, 2, 3, 1583873462376);
 
+SELECT
+                            t.id,
+                            t.name,
+                            p.id player_id,
+                            p.firstName firstName,
+                            p.lastName lastName,
+                            p.teamId teamId
+                        FROM Teams t
+                        JOIN Players p ON p.teamId = t.id

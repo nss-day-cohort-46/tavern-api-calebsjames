@@ -31,9 +31,12 @@ def get_teams(filters):
 
 
         else:
+            # url_parts = filters.split("&")
             if "_embed" in filters:
                 for related_resource in filters['_embed']['resources']:
-                    if related_resource == "teamScores":
+
+                    if related_resource == 'teamScores':
+                    # if "teamScores" in 'resource':
                         db_cursor.execute("""
                         SELECT
                             t.id,
@@ -41,7 +44,7 @@ def get_teams(filters):
                             ts.id score_id,
                             ts.teamId,
                             ts.score,
-                            ts.time_stamp
+                            ts.timeStamp
                         FROM Teams t
                         LEFT OUTER JOIN TeamScore ts ON ts.teamId = t.id
                         """)
@@ -62,17 +65,20 @@ def get_teams(filters):
 
 
                     elif related_resource == "players":
+                        
                         db_cursor.execute("""
                         SELECT
                             t.id,
                             t.name,
                             p.id player_id,
-                            p.firstName,
-                            p.lastName,
-                            p.teamId
+                            p.firstName firstName,
+                            p.lastName lastName,
+                            p.teamId teamId
                         FROM Teams t
                         JOIN Players p ON p.teamId = t.id
                         """)
+
+                        
 
                         dataset = db_cursor.fetchall()
 
@@ -84,7 +90,7 @@ def get_teams(filters):
                                 team = teams[row['id']]
 
                             player = Player(row['player_id'], row['firstName'], row['lastName'], row['teamId'])
-                        team.players.append(player.__dict__)
+                            team.players.append(player.__dict__)
 
             json_teams = []
             for team in teams.values():
